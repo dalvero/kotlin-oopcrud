@@ -41,5 +41,15 @@ object Display{
         }
         println()
     }
+
+    // FUNCTION PRINT MAIN MENU
+    fun printMainMenu(mainMenu : Array<String>){
+        for (i in mainMenu.indices){
+            println("${i + 1}. ${mainMenu[i]}")
+        }
+        println("0. Keluar")
+    }
+
+
 }
 

@@ -1,8 +1,9 @@
 package main
 
+import control.Run
 import control.display.Display
+import objek.Barang
 
 fun main() {
-    Display.printDividen()
-    Display.printTitle(title = "Hello World")
+    Run.runner()
 }
