@@ -3,6 +3,7 @@ package control
 import control.display.Display
 import interfaces.Crud
 import objek.Barang
+import repository.RepositoryBarang
 import utilities.Menu
 
 object Run : Crud{
@@ -62,15 +63,23 @@ object Run : Crud{
         Display.printDividen()
         Display.printTitle(title = "Tambah Data")
         Display.printDividen()
-        print("> Masukan nama barang\n: ")
+        print("> Masukan nama barang\t\t\t: ")
         val namaBarang = readlnOrNull()
-        print("> Masukan jumlah stok barang\n: ")
+        print("> Masukan jumlah stok barang\t: ")
         val stokBarang = readlnOrNull()
         if (namaBarang != null && stokBarang != null){
+            val fixedNamaBarang = namaBarang.toIntOrNull()
             val fixedStock = stokBarang.toIntOrNull()
-            if (fixedStock != null){
-                // val newBarang = Barang()
+            if (fixedStock != null && fixedNamaBarang == null){
+                RepositoryBarang.tambahBarang(namaBarang, fixedStock)
+                Display.printListBarang(false, RepositoryBarang.tampilBarang())
+            } else {
+                println("> Barang gagal ditambahkan")
+                println("> Barang atau Stok Barang tidak valid\n> Silahkan ulangi!")
             }
+        } else {
+            println("> Barang gagal ditambahkan")
+            println("> Barang atau Stok Barang tidak valid\n> Silahkan ulangi!")
         }
     }
 
@@ -78,6 +87,7 @@ object Run : Crud{
         Display.printDividen()
         Display.printTitle(title = "Tampil Data")
         Display.printDividen()
+        Display.printListBarang(false, RepositoryBarang.tampilBarang())
     }
 
     override fun editData() {

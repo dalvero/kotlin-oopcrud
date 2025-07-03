@@ -1,5 +1,7 @@
 package control.display
 
+import objek.Barang
+
 // OBJEK CLASS DISPLAY
 object Display{
     // FUNCTION PRINT GARIS
@@ -50,6 +52,40 @@ object Display{
         println("0. Keluar")
     }
 
+    // FUNCTION PRINT BARANG
+    fun printListBarang(withTitle : Boolean, listBarang : List<Barang>){
+        if (withTitle){
+            printTitle(title = "List Barang")
+        }
+
+        // TABEL KOMPONEN
+        val lebarNo = 5
+        val lebarId = 8
+        val lebarNamaBarang = 20
+        val lebarStokBarang = 12
+
+        // PRINT LINE HEADER
+        val line = "+${"-".repeat(lebarNo)}+${"-".repeat(lebarId)}+${"-".repeat(lebarNamaBarang)}+${"-".repeat(lebarStokBarang + 1)}"
+        println(line)
+        println("| ${"No".padEnd(lebarNo - 2)} | ${"ID".padEnd(lebarId - 2)} | ${"Nama Barang".padEnd(lebarNamaBarang - 2)} | ${"Stok Barang".padEnd(lebarStokBarang - 2)}|")
+        println(line)
+
+        // PRINT DATA
+        if (listBarang.isEmpty()){
+            println("| ${"Tidak ada barang tersedia.".padEnd(lebarNo + lebarId + lebarNamaBarang + lebarStokBarang + 2)}|")
+        } else {
+            for ((no, barang) in listBarang.withIndex()){
+                val nomor = (no + 1).toString().padEnd(lebarNo - 2)
+                val idBarang = "BRG-${barang.idBarang}".padEnd(lebarId - 2)
+                val namaBarang = barang.namaBarang.padEnd(lebarNamaBarang - 2)
+                val stokBarang = barang.stokBarang.toString().padEnd(lebarStokBarang - 2)
+                println("| $nomor | $idBarang | $namaBarang | $stokBarang |")
+            }
+        }
+
+        // PRINT LINE FOOTER
+        println(line)
+    }
 
 }
 
