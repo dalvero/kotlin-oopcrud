@@ -2,6 +2,7 @@ package control
 
 import control.display.Display
 import interfaces.Crud
+import objek.Barang
 import utilities.Menu
 
 object Run : Crud{
@@ -61,6 +62,16 @@ object Run : Crud{
         Display.printDividen()
         Display.printTitle(title = "Tambah Data")
         Display.printDividen()
+        print("> Masukan nama barang\n: ")
+        val namaBarang = readlnOrNull()
+        print("> Masukan jumlah stok barang\n: ")
+        val stokBarang = readlnOrNull()
+        if (namaBarang != null && stokBarang != null){
+            val fixedStock = stokBarang.toIntOrNull()
+            if (fixedStock != null){
+                // val newBarang = Barang()
+            }
+        }
     }
 
     override fun tampilData() {
