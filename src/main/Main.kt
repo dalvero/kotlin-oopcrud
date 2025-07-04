@@ -1,6 +1,6 @@
 package main
 
-import control.Run
+import control.display.Run
 
 fun main() {
     Run.runner()

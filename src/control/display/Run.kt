@@ -1,6 +1,5 @@
-package control
+package control.display
 
-import control.display.Display
 import interfaces.Crud
 import objek.Barang
 import repository.RepositoryBarang
@@ -31,7 +30,7 @@ object Run : Crud{
     }
 
     // MENDAPATKAN INPUTAN USER
-    fun getOption(): String {
+    private fun getOption(): String {
         print("> Masukan pilihan : ")
         val option = readlnOrNull()
         return when {
@@ -41,7 +40,7 @@ object Run : Crud{
     }
 
     // VALIDASI INPUTAN USER
-    fun validationOption(option : String, menu : Array<String>) : Boolean{
+    private fun validationOption(option : String, menu : Array<String>) : Boolean{
         val check = option.toIntOrNull()
         return when {
             check != null -> {
@@ -59,6 +58,7 @@ object Run : Crud{
         }
     }
 
+    // OVERRIDE FUNCTION TAMBAH DATA
     override fun tambahData() {
         Display.printDividen()
         Display.printTitle(title = "Tambah Data")
@@ -83,6 +83,7 @@ object Run : Crud{
         }
     }
 
+    // OVERRIDE FUNCTION TAMPIL DATA
     override fun tampilData() {
         Display.printDividen()
         Display.printTitle(title = "Tampil Data")
@@ -90,15 +91,57 @@ object Run : Crud{
         Display.printListBarang(false, RepositoryBarang.tampilBarang())
     }
 
+    // OVERRIDE FUNCTION EDIT DATA
     override fun editData() {
         Display.printDividen()
         Display.printTitle(title = "Edit Data")
         Display.printDividen()
+        print("> Masukan nama barang\t\t\t: ")
+        val namaBarang = readlnOrNull()
+        if (namaBarang != null){
+            val barang : Barang? = RepositoryBarang.cariBarangByNama(namaBarang)
+            if (barang != null){
+                println("> Barang yang anda cari ${barang.namaBarang} ditemukan")
+            } else {
+                println("> Barang yang anda cari $namaBarang tidak ditemukan")
+                println("> Silahkan ulangi!")
+                return
+            }
+        }
+
+        Display.printTitle(title = "Masukan Data Barang Terbaru")
+        print("> Masukan nama barang\t\t\t: ")
+        val newNamaBarang = readlnOrNull()
+        print("> Masukan jumlah stok barang\t: ")
+        val newStokBarang = readlnOrNull()
+        if (newNamaBarang != null && newStokBarang != null && namaBarang != null){
+            val fixedNamaBarang = newNamaBarang.toIntOrNull()
+            val fixedStock = newStokBarang.toIntOrNull()
+            if (fixedStock != null && fixedNamaBarang == null){
+                RepositoryBarang.editBarang(namaBarang, newNamaBarang, fixedStock)
+                Display.printListBarang(false, RepositoryBarang.tampilBarang())
+            } else {
+                println("> Barang atau Stok Barang tidak valid\n> Silahkan ulangi!")
+            }
+        } else {
+            println("> Barang gagal diupdate")
+            println("> Barang atau Stok Barang tidak valid\n> Silahkan ulangi!")
+        }
     }
 
+    // OVERRIDE FUNCTION DELETE DATA
     override fun deleteData() {
         Display.printDividen()
         Display.printTitle(title = "Delete Data")
         Display.printDividen()
+        print("> Masukan nama barang\t\t\t: ")
+        val namaBarang = readlnOrNull()
+        if (namaBarang != null){
+            if (RepositoryBarang.hapusBarang(namaBarang)){
+                println("> Barang dengan nama $namaBarang berhasil dihapus")
+            } else {
+                println("> Barang dengan nama $namaBarang gagal dihapus")
+            }
+        }
     }
 }
